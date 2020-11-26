@@ -1,5 +1,7 @@
 import {SHA256} from 'crypto-js';
 
+const DIFICULTAD = 3;
+
 class Block 
 {
     constructor(timestamp,previousHash, hash, data)
@@ -8,6 +10,7 @@ class Block
         this.previousHash = previousHash;
         this.hash = hash;
         this.data = data;
+        this.nonce = nonce;
 
     }
 
@@ -20,12 +23,19 @@ class Block
 
     static mine(previousBlock, data)
     {
-        const timestamp = Date.now();
-        const { hash: previousHash } = previousBlock;
-        const hash = Block.hash(timestamp,previousHash,data);
         
+        const { hash: previousHash } = previousBlock;
+        let timestamp;
+        let hash;
+        let nonce = 0;
+        
+        do{
+            timestamp = Date.now();
+            hash = Block.hash(timestamp,previousHash,data);
 
-        return new this(timestamp,previousHash,hash,data);
+        } while(hash.substring(0,DIFICULTAD)!== '0'.repeat(DIFICULTAD));
+
+        return new this(timestamp,previousHash,hash,data,nonce);
     }
 
     static hash(timestamp,previousHash,data)
@@ -38,14 +48,16 @@ class Block
     {
         const
         {
-            timestamp, previousHash, has, data,
+            timestamp, previousHash, has, data, nonce
         } = this;
 
         return `Block - 
         timestamp       : ${timestamp}
         previousHash    : ${previousHash}
         has             : ${has}
-        data            : ${data}`;
+        data            : ${data}
+        nonce           : ${nonce}
+        `;
     }
 }
 

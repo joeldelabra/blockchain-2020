@@ -1,14 +1,13 @@
 import Blockchain from './blockchain';
 import Block from './block';
 
-
-describe('Blockchain',() => {
+describe('Blockchain', () => {
     let blockchain;
     let blockchainB;
 
-    beforeEach(() => {
-        blockchain = new Blockchain();
-        blockchainB = new Blockchain();
+    beforeEach( () => {
+        blockchain = new Blockchain;
+        blockchainB = new Blockchain;
     });
 
     it('Todos contienen un block genesis', () => {
@@ -18,23 +17,21 @@ describe('Blockchain',() => {
         expect(blockchain.blocks.length).toEqual(1);
     });
 
-    it('addBlock esta en uso', () => {
-        const data = "d4ta";
+    it('addBlock está en uso', () => {
+        const data = "data";
         blockchain.addBlock(data);
 
         const [, lastBlock] = blockchain.blocks;
         expect(lastBlock.data).toEqual(data);
         expect(blockchain.blocks.length).toEqual(2);
     });
-    
-    // Reemplazar
+
     it('Prueba de reemplazo de cadena con otra cadena válida', () => {
         blockchainB.addBlock('bl4ck-1');
         blockchain.replace(blockchainB.blocks);
 
         expect(blockchain.blocks).toEqual(blockchainB.blocks);
     });
-
 
     it('No reemplaza la cadena con una de menor longitud', () => {
         blockchain.addBlock('block-1');

@@ -6,9 +6,9 @@ class Blockchain {
         this.blocks = [Block.genesis];
     }
 
-
     addBlock(data) {
         const previousBlock = this.blocks[this.blocks.length - 1];
+
         const block = Block.mine(previousBlock, data);
 
         this.blocks.push(block);
@@ -23,9 +23,9 @@ class Blockchain {
         } catch (error) {
           throw Error('Cadena recibida inválida');
         }
-
+    
         this.blocks = newBlocks;
-
+    
         return this.blocks;
       }
 }
